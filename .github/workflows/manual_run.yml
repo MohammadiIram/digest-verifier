@@ -1,0 +1,20 @@
+name: To manually run on specific branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Branch Name'
+        required: true
+
+jobs:
+  clone-and-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Custom Script
+        run: |
+          chmod +x ./manual_run.sh
+          ./manual_run.sh "${{ github.event.inputs.branch_name }}"

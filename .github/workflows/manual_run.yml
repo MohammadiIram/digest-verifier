@@ -16,5 +16,5 @@ jobs:
 
       - name: Run Custom Script
         run: |
-          chmod +x ./manual_run.sh
-          ./manual_run.sh "${{ github.event.inputs.branch_name }}"
+          chmod +x ./Manual_run.sh
+          ./Manual_run.sh "${{ github.event.inputs.branch_name }}"

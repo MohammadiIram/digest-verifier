@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Execute sha_update.sh
+    - name: Execute Periodic_digest_verifier.sh
       run: |
         chmod +x ./Periodic_digest_verifier.sh
         ./Periodic_digest_verifier.sh

@@ -1,4 +1,4 @@
-name: To manually run on specific branch
+name: Manual digest verifier
 
 on:
   workflow_dispatch:

@@ -3,12 +3,6 @@ name: Daily Digest verifier
 on:
   schedule:
     - cron: '*/2 * * * *'
-  workflow_dispatch:
-   inputs:
-      branch_name:
-        description: 'Branch Name to Run the Script On'
-        required: true
-        default: 'main'
 
 # Job 
 jobs:

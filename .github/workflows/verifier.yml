@@ -2,20 +2,24 @@ name: Verifier
 
 on:
   schedule:
-    - cron: '30 4 * * *'  # Runs at 10 AM IST (4:30 AM UTC)
-  workflow_dispatch:  # Allows manual triggering of the workflow
-   inputs:
-      branch_name:
-        description: 'Branch Name'
-        required: true
+    - cron: '*/2 * * * *'  # Runs at 10 AM IST (4:30 AM UTC), defaults to the latest branch
+  workflow_dispatch:
+    inputs:
+      reference:
+        description: 'Branch Reference (use "latest" for the latest branch or specify any branch name)'
+        required: false
+        default: 'latest'
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
-    - name: Set up permissions and execute script
+    - name: Execute script with branch parameter
+      env:
+        BRANCH_NAME: ${{ github.event.inputs.reference || 'latest' }}
       run: |
         chmod +x ./verifier.sh
-        ./verifier.sh
+        ./verifier.sh $BRANCH_NAME

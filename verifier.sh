@@ -12,26 +12,37 @@ fi
 # Read the repository URL from the file
 REPO_URL=$(cat "$REPO_URL_FILE")
 
-# Fetch the latest branch name matching 'rhoai' from the remote repository
-LATEST_BRANCH=$(git ls-remote --heads $REPO_URL | grep 'rhoai' | awk -F'/' '{print $NF}' | sort -V | tail -1)
-
-if [ -z "$LATEST_BRANCH" ]; then
-  echo "Error: Unable to determine the latest branch name."
-  exit 1
+# Check if a branch name was provided as an argument
+if [ $# -eq 1 ]; then
+  BRANCH_NAME="$1"
+  if [ "$BRANCH_NAME" = "latest" ]; then
+    # Fetch the latest branch name matching 'rhoai' from the remote repository
+    BRANCH_NAME=$(git ls-remote --heads $REPO_URL | grep 'rhoai' | awk -F'/' '{print $NF}' | sort -V | tail -1)
+    if [ -z "$BRANCH_NAME" ]; then
+      echo "Error: Unable to determine the latest branch name."
+      exit 1
+    fi
+  fi
+else
+  # Default to the latest 'rhoai' branch if no argument is provided
+  BRANCH_NAME=$(git ls-remote --heads $REPO_URL | grep 'rhoai' | awk -F'/' '{print $NF}' | sort -V | tail -1)
+  if [ -z "$BRANCH_NAME" ]; then
+    echo "Error: Unable to determine the latest branch name."
+    exit 1
+  fi
 fi
 
-echo "Attempting to clone the latest branch '$LATEST_BRANCH' from '$REPO_URL' into 'kserve' directory..."
+echo "Attempting to clone the branch '$BRANCH_NAME' from '$REPO_URL' into 'kserve' directory..."
 
 # Clone the specified branch of the repository
-git clone --depth 1 -b "$LATEST_BRANCH" "$REPO_URL" "kserve"
+git clone --depth 1 -b "$BRANCH_NAME" "$REPO_URL" "kserve"
 if [ $? -ne 0 ]; then
-  echo "Error: Failed to clone branch '$LATEST_BRANCH' from '$REPO_URL'"
+  echo "Error: Failed to clone branch '$BRANCH_NAME' from '$REPO_URL'"
   exit 1
 else
-  echo "Successfully cloned the latest branch '$LATEST_BRANCH'."
+  echo "Successfully cloned the branch '$BRANCH_NAME'."
 fi
 
-# [The rest of your script here...]
 
 # Define the path to the file you want to check in the cloned directory
 FILE_PATH="kserve/config/overlays/odh/params.env"

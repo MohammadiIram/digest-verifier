@@ -6,9 +6,8 @@ on:
   workflow_dispatch:
     inputs:
       reference:
-        description: 'Branch Reference (use "latest" for the latest branch or specify any branch name)'
+        description: 'Branch Name'
         required: false
-        default: 'latest'
 
 jobs:
   run-script:

@@ -1,0 +1,21 @@
+name: Verifier
+
+on:
+  schedule:
+    - cron: '30 4 * * *'  # Runs at 10 AM IST (4:30 AM UTC)
+  workflow_dispatch:  # Allows manual triggering of the workflow
+   inputs:
+      branch_name:
+        description: 'Branch Name'
+        required: true
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up permissions and execute script
+      run: |
+        chmod +x ./verifier.sh
+        ./verifier.sh

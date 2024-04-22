@@ -1,8 +1,8 @@
 name: Verifier
 
 on:
-  schedule:
-    - cron: '30 4 * * *'  # Runs at 10 AM IST (4:30 AM UTC), defaults to the latest branch
+  # schedule:
+  #   - cron: '30 4 * * *'  # Runs at 10 AM IST (4:30 AM UTC), defaults to the latest branch
   workflow_dispatch:
     inputs:
       reference:
